@@ -6,6 +6,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from geopy.geocoders import Nominatim
 from haversine import haversine, Unit
+
 app = Flask(__name__)
 
 chrome_options = Options()
@@ -31,16 +32,15 @@ int_iss_speed = [iss_speed.replace("km/h", "") for speed in iss_speed]
 
 iss_location = iss_latitude_float, iss_longitude_float
 
-
 driver.close()
 
 
-@app.route('/')
+@app.route('/', methods=['GET'])
 def index():
     return render_template('home.html')
 
 
-@app.route('/<user_city>', methods=['POST'])
+@app.route('/<user_city>', methods=['GET', 'POST'])
 def user_city(user_city):
     user_city = request.form['user_city']
     geolocator = Nominatim()
